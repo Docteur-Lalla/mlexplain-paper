@@ -1,0 +1,42 @@
+\documentclass[twocolumn]{article}
+\usepackage[utf8]{inputenc}
+
+\author{
+	K\'evin Le Bon
+	\and
+	Alan Schmitt
+}
+
+\title{MLExplain}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+	MLExplain is a step-by-step visual interpreter for OCaml that enables the user
+	to inspect both their program's state and the interpreter's state itself.
+\end{abstract}
+
+\section{Introduction}
+
+The semantics of a programming language can be very complex. When a language has no specification,
+the semantics is then defined by the implementations of the language, i.e. interpreters and
+compilers. However even when a specification is available, it can be difficult to understand why
+the execution of a specific program results to a certain output.
+
+The project \emph{JSExplain}\footnote{https://github.com/jscert/jsexplain} aims to describe
+a JavaScript program's execution by showing every step of an interpreter which behavior is the
+closest to JavaScript specification. This paper shows how we adapted JSExplain to OCaml.
+
+Unlike JavaScript, OCaml has no official specification. However, OCaml code execution is
+fairly simple because the amount of language constructions is small. We have written an
+interpreter for OCaml's typed abstract syntax tree (AST). This AST is close to source code and
+need little transformations but supplies us with resolved names -- which is useful for module and
+signatures inclusion and absolutely mandatory for features like named parameters in functions.
+The semantic we give to OCaml is higher level than the one described in \emph{ZINC}
+\cite{Leroy-ZINC} virtual machine which is at the same level as object code.
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+
+\end{document}
