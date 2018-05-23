@@ -69,6 +69,15 @@ state of the interpreter:
 JSExplain's web interface uses these traces in order to display the program and
 interpreter state at every step of the execution.
 
+The whole project takes the shape of a web application composed of the
+JavaScript interpreter and a view. The view allows the user to write JavaScript
+code and run it. It also displays the state of the program and the state of the
+interpreter.
+
+The program's execution is not interactive: when the button \texttt{run} is
+pressed, the program is executed all at one and the traces are generated. Only
+then, the user can replay the execution step by step.
+
 \subsection{JSExplain's compiler}
 
 % Référence pour coq ?
@@ -81,6 +90,23 @@ JSExplain also needs its own OCaml to JavaScript compiler in order to place the
 calls to \verb|log_event| which is the tracing function. This function is also
 used to get the location of the different syntactical objects in the source
 file in order to produce code highlighting in JSExplain's interface.
+
+This compiler offers several compilation modes:
+
+\begin{itemize}
+  \item \texttt{unlog}: generate JavaScript without tracing.
+  \item \texttt{log}: generate JavaScript with tracing.
+  \item \texttt{mlloc}, \texttt{token} and \texttt{ptoken}: generate files with
+    informations about syntastical elements from the input file.
+  \item \texttt{pseudo}: generate JavaScript enhanced with syntactic sugar for
+    pattern matching or monadic operations -- it is supposed to be easier to
+    read.
+\end{itemize}
+
+\subsubsection{fOCaml}
+This compiler does not recognized the whole OCaml language, it can only handle
+a small subset we named \texttt{fOCaml}. Among other restrictions, it cannot
+handle objects and imperative features, exceptions, inner modules, and tuples.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
