@@ -4,11 +4,7 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning,fit,shapes,arrows.meta}
 
-\author{
-	K\'evin Le Bon
-	\and
-	Alan Schmitt
-}
+\author{ K\'evin Le Bon \and Alan Schmitt }
 
 \title{MLExplain}
 
@@ -16,66 +12,77 @@
 \maketitle
 
 \begin{abstract}
-	MLExplain is a step-by-step visual interpreter for OCaml that enables the user
-	to inspect both their program's state and the interpreter's state itself. This interpreter
-	aims to provide the user with a better understanding of the semantics of OCaml.
+  MLExplain is a step-by-step visual interpreter for OCaml that enables the
+  user to inspect both their program's state and the interpreter's state
+  itself. This interpreter aims to provide the user with a better understanding
+  of the semantics of OCaml semantics.
 \end{abstract}
 
 \section{Introduction}
 
-The semantics of a programming language can be very complex. When a language has no specification,
-the semantics is then defined by the implementations of the language, i.e., interpreters and
-compilers. However even when a specification is available, it can be difficult to understand why
-the execution of a specific program results to a certain output.
+The semantics of a programming language can be very complex. When a language
+has no specification, the semantics is then defined by the implementations of
+the language, i.e., interpreters and compilers. However even when a
+specification is available, it can be difficult to understand why the execution
+of a specific program results to a certain output.
 
-The project \emph{JSExplain} \cite{chargueraud:hal-01745792} aims to describe
-a JavaScript program's execution by showing every step of an interpreter which behavior is the
-closest to JavaScript specification. This paper shows how we adapted JSExplain to OCaml.
+The project \emph{JSExplain} \cite{chargueraud:hal-01745792} aims
+to describe a JavaScript program's execution by showing every step of an
+interpreter which behavior is the closest to JavaScript specification. This
+paper shows how we adapted JSExplain to OCaml.
 
-Unlike JavaScript, OCaml has no official specification. However, OCaml code execution is
-fairly simple because the amount of language constructions is small. We have written an
-interpreter for OCaml's typed abstract syntax tree (AST). This AST is close to source code and
-need little transformations but supplies us with resolved names -- which is useful for module and
-signatures inclusion and absolutely mandatory for features like named parameters in functions.
-The semantic we give to OCaml is higher level than the one described in \emph{ZINC}
-\cite{Leroy-ZINC} virtual machine which is at the same level as object code.
+Unlike JavaScript, OCaml has no official specification. However, OCaml code
+execution is fairly simple because the amount of language constructions is
+small. We have written an interpreter for OCaml's typed abstract syntax tree
+(AST). This AST is close to source code and need little transformations but
+supplies us with resolved names -- which is useful for module and signatures
+inclusion and absolutely mandatory for features like named parameters in
+functions.  The semantic we give to OCaml is higher level than the one
+described in \emph{ZINC} \cite{Leroy-ZINC} virtual machine which is at the same
+level as object code.
 
 \section{The visual interpreter JSExplain}
 
-An interpreter is a program that takes code written in a specific language as input
-and execute it. In order to achieve its goal, the interpreter does several analyses ;
-here are the most common : lexical analysis, parsing and typing.
+An interpreter is a program that takes code written in a specific language as
+input and execute it. In order to achieve its goal, the interpreter does
+several analyses ; here are the most common : lexical analysis, parsing and
+typing.
 
-We call a \emph{visual interpreter} an interpreter that is able to display the program's state,
-the current location in source and local-variable values at each step of the execution as well as
-the state of the interpreter itself. JSExplain is a visual interpreter for JavaScript. The aim of
-this tool is to enable a user to better understand JavaScript's semantics. JSExplain's interface
-highlights the expression of the program currently evaluated as well as the instruction of
-the interpreter that is executed.
+We call a \emph{visual interpreter} an interpreter that is able to display the
+program's state, the current location in source and local-variable values at
+each step of the execution as well as the state of the interpreter itself.
+JSExplain is a visual interpreter for JavaScript. The aim of this tool is to
+enable a user to better understand JavaScript's semantics. JSExplain's
+interface highlights the expression of the program currently evaluated as well
+as the instruction of the interpreter that is executed.
 
 \section{JSExplain functioning}
 
-JSExplain is a visual interpreter. To display its state, the interpreter is compiled with a
-compiler that adds calls to a tracing function. The traced retrieved during the execution of the
-program gives many information about the state of the interpreter:
+JSExplain is a visual interpreter. To display its state, the interpreter is
+compiled with a compiler that adds calls to a tracing function. The traced
+retrieved during the execution of the program gives many information about the
+state of the interpreter:
 
 \begin{itemize}
-	\item existing variables and their values
-	\item return values of functions of the interpreter
+  \item existing variables and their values
+  \item return values of functions of the interpreter
 \end{itemize}
 
-JSExplain's web interface uses these traces in order to display the program and interpreter state
-at every step of the execution.
+JSExplain's web interface uses these traces in order to display the program and
+interpreter state at every step of the execution.
 
 \subsection{JSExplain's compiler}
 
-% Expliquer que JSExplain est écrit en OCaml et compilé vers JavaScript pour être intégré dans
-% la page web qui va avec
+% Référence pour coq ?
+JSExplain was first written in Coq. OCaml code has been extracted from the Coq
+source and is now the primary source code. The interpreter is compiled into
+JavaScript in order to use it within a web page. For this reason, the project
+embeds a homemade OCaml-to-JavaScript compiler.
 
-JSExplain needs its own OCaml to JavaScript compiler in order to place the calls to
-\verb|log_event| which is the tracing function. This function is also used to get the location
-of the different syntactical objects in the source file in order to produce code highlighting in
-JSExplain's interface.
+JSExplain also needs its own OCaml to JavaScript compiler in order to place the
+calls to \verb|log_event| which is the tracing function. This function is also
+used to get the location of the different syntactical objects in the source
+file in order to produce code highlighting in JSExplain's interface.
 
 
 \begin{figure*}
