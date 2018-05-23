@@ -1,6 +1,8 @@
 %\documentclass{article}
 \documentclass[twocolumn]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,shapes,arrows.meta}
 
 \author{
 	K\'evin Le Bon
@@ -16,17 +18,17 @@
 \begin{abstract}
 	MLExplain is a step-by-step visual interpreter for OCaml that enables the user
 	to inspect both their program's state and the interpreter's state itself. This interpreter
-	aims to provide the user with a better understanding of OCaml's semantics.
+	aims to provide the user with a better understanding of the semantics of OCaml.
 \end{abstract}
 
 \section{Introduction}
 
 The semantics of a programming language can be very complex. When a language has no specification,
-the semantics is then defined by the implementations of the language, i.e. interpreters and
+the semantics is then defined by the implementations of the language, i.e., interpreters and
 compilers. However even when a specification is available, it can be difficult to understand why
 the execution of a specific program results to a certain output.
 
-The project \emph{JSExplain}\footnote{https://github.com/jscert/jsexplain} aims to describe
+The project \emph{JSExplain} \cite{chargueraud:hal-01745792} aims to describe
 a JavaScript program's execution by showing every step of an interpreter which behavior is the
 closest to JavaScript specification. This paper shows how we adapted JSExplain to OCaml.
 
@@ -74,6 +76,46 @@ JSExplain needs its own OCaml to JavaScript compiler in order to place the calls
 \verb|log_event| which is the tracing function. This function is also used to get the location
 of the different syntactical objects in the source file in order to produce code highlighting in
 JSExplain's interface.
+
+
+\begin{figure*}
+  \centering
+  \begin{tikzpicture}[nodes = {align = center}]
+    \node (focaml) [draw, text width=2cm] {Interpreter and libraries (OCaml)};
+
+    \node (fjs) [draw, right = 1cm of focaml, text width=2cm, rectangle split,
+    rectangle split parts=2, text centered] {Libraries (JS) \nodepart{second}
+      Interpreter with traces (JS)};
+
+    \node (ast) [draw, above = of fjs, text width=2cm] {AST of interpreted
+      program};
+
+    \node (source) [draw, right = 2cm of ast, text width=2cm, text centered]
+    {interpreted program};
+
+    \node [draw, dotted, fit=(fjs) (ast) (source)] {web page};
+
+    \node (trace) [draw, right = 2cm of fjs, text width=2cm, text centered]
+    {trace};
+
+    \path[->,thick,>=stealth] (focaml.north
+    east) edge[bend left] node[above left] {compiler} (fjs.north west) ;
+
+    \path[->,thick,>=stealth] (focaml.south east) edge[bend right] node[below
+    left] {\parbox{2cm}{\centering tracing compiler}} (fjs.south west);
+
+    \path[->,thick,dotted,>=stealth] (source) edge node [above] {Parser} node [below] {Js\_of\_ocaml} (ast);
+
+    \path[->,thick,dotted,>=stealth] (ast) edge (fjs);
+
+    \path[->,thick,dotted,>=stealth] (ast) edge (fjs);
+
+    \path[->,thick,dotted,>=stealth] (fjs) edge (trace);
+  \end{tikzpicture}
+  
+  \caption{Architecture of MLExplain}
+  \label{fig:archi}
+\end{figure*}
 
 \bibliographystyle{plain}
 \bibliography{biblio}
