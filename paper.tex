@@ -135,16 +135,16 @@ completely and replace it with another one.
 
 \subsection{Two compilers}
 
-To interpret OCaml code, we need to parse it. However, our compiler does not
-allow us to use the standard library nor an external one. Fortunately,
-JSExplain itself did not trace the parsing process. That is why we have been
-able to separate totally the parser from the interpreter and use another
-compiler to compile it. The figure \ref{fig:archi} describes the architecture
-of the whole application.
+To interpret OCaml code, we need to parse and type it. However, our compiler
+does not allow us to use the standard library nor an external one. Fortunately,
+JSExplain itself did not trace both parsing and typing processes. That is why
+we have been able to separate totally the frontend from the interpreter itself
+and use another compiler to compile it. The figure \ref{fig:archi} describes
+the architecture of the whole application.
 
-The parser is compiled with
-\emph{js\_of\_ocaml} \cite{DBLP:journals/spe/VouillonB14}, the compiler of the
-project \emph{Ocsigen}.
+The frontend is compiled with \emph{js\_of\_ocaml}
+\cite{DBLP:journals/spe/VouillonB14}, the compiler of the project
+\emph{Ocsigen} \cite{balat:hal-00691710}.
 
 \begin{figure*}[ht]
   \centering
