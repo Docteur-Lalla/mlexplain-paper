@@ -1,0 +1,12 @@
+MLInterpreter.ml : 164 comments 394 code 62 binds
+TranslateSyntax.ml : 41 comments 542 code 0 bind
+MLSyntax.ml : 17 comments 65 code 0 bind
+
+auxiliaires : 72 comments code 232 code 2 binds
+
+Primitives.ml : 31 comments 35 code
+ExecutionContext.ml : 22 comments 13 code 0 bind
+Vector.js : 11 comments 30 code
+
+Total (sans les mli) : 392 comments 1621 code 70 binds
+Total (avec les mli) : 401 comments 1636 code 70 binds
