@@ -118,7 +118,10 @@ satisfying a predicate, or vice-versa.
 
 At first glance, JSExplain seems tightly linked to JavaScript. However, the
 architecture of the project actually lets us completely replace the interpreter
-with one for a different language.
+with one for a different language. Our main task was to create a new OCaml
+interpreter that could be integrated into the rest of the application. Then, we
+noticed that the web application itself needed some changes -- for instance to
+pretty print values.
 
 % Plus de blabla
 
@@ -180,8 +183,13 @@ of the AST. We use the \texttt{compiler-libs} library to do the actual parsing
 and typing. We ensure that the typed AST we get is the same as the official
 OCaml compiler AST since we use the exact same frontend.
 
-% Difference entre les constructeurs, raison principale de la traduction à la
-% main
+% TODO: Alan, si tu as une idée pour raccourcir ou découper cette phrase
+The main reason why both AST representations are not compatible and require an
+explicit hand-made serialization into JavaScript is how the compilers compile
+OCaml type constructors. Our compiler creates a JavaScript object from the type
+and treats constructors as methods building themselves the value. This value is
+a simple JavaScript object. \emph{js\_of\_ocaml}, on the other hand, uses its
+own internal representation of OCaml value that we cannot use directly.
 
 \subsection{Solutions to compiler limitations}
 
@@ -191,7 +199,7 @@ to write non-idiomatic OCaml.
 
 Error management could not be done using exceptions. This is why we used monadic
 computation. A monad is a data structure representing an action within a
-context. A monad typically take the form of a type constructor. It provides the
+context. A monad typically take the form of an algebraic type. It provides the
 following functions:
 
 \begin{verbatim}
@@ -210,7 +218,7 @@ This signature is typical from functions that may fail -- for example
 the supplied function on the monad only if represents a valid state (see figure
 \ref{fig:error} for an implementation on \texttt{option}).
 
-\begin{figure}[b]
+\begin{figure}[hb]
   \begin{verbatim}
 let bind_option opt f = match opt with
 | Some value -> f value
