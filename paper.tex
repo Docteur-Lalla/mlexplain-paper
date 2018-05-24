@@ -71,8 +71,72 @@ state of the interpreter:
 JSExplain's web interface uses these traces in order to display the program and
 interpreter state at every step of the execution.
 
-% J'aime pas trop la voir tout en bas, mais ici ça fait bizarre, si tu as mieux
-% je prends.
+The whole project takes the shape of a web application composed of the
+JavaScript interpreter and a view. The view allows the user to write JavaScript
+code and run it. It also displays the state of the program and the state of the
+interpreter.
+
+The program's execution is not interactive: when the button \texttt{run} is
+pressed, the program is executed all at one and the traces are generated. Only
+then, the user can replay the execution step by step.
+
+\subsection{JSExplain's compiler}
+
+% Référence pour coq ?
+JSExplain was first written in Coq. OCaml code has been extracted from the Coq
+source and is now the primary source code. The interpreter is compiled into
+JavaScript in order to use it within a web page. For this reason, the project
+embeds a homemade OCaml-to-JavaScript compiler.
+
+JSExplain also needs its own OCaml to JavaScript compiler in order to place the
+calls to \verb|log_event| which is the tracing function. This function is also
+used to get the location of the different syntactical objects in the source
+file in order to produce code highlighting in JSExplain's interface.
+
+This compiler offers several compilation modes:
+
+\begin{itemize}
+  \item \texttt{unlog}: generate JavaScript without tracing.
+  \item \texttt{log}: generate JavaScript with tracing.
+  \item \texttt{mlloc}, \texttt{token} and \texttt{ptoken}: generate files with
+    informations about syntastical elements from the input file.
+  \item \texttt{pseudo}: generate JavaScript enhanced with syntactic sugar for
+    pattern matching or monadic operations -- it is supposed to be easier to
+    read.
+\end{itemize}
+
+Modes \texttt{unlog} and \texttt{log} exist so that auxiliary code in the
+interpreter -- like linked-list or hash-map internal-management functions -- is
+not traced.  The user is thus able to concentrate on the logical part of the
+interpreter functioning and forget about implementation details.
+
+\subsubsection{fOCaml}
+This compiler does not recognized the whole OCaml language, it can only handle
+a small subset we named \texttt{fOCaml}. Among other restrictions, it cannot
+handle objects and imperative features, exceptions, inner modules, and tuples.
+The main reason for this limitation is that compiling OCaml into JavaScript is
+not trivial, many features -- e.g. nested pattern matching -- are hard to
+represent to JavaScript.
+
+The fOCaml code is compiled into \texttt{fJs}, a functional subset of
+JavaScript. The compiler preserves as much as possible the code structure to
+enable the user to understand both fOCaml and fJs codes as the same one.
+
+% Petite explication sur le fait que du coup on écrit du code fonctionnel pur
+% et les implications que ça a ?
+
+\section{MLExplain}
+
+At first glance, JSExplain seems tightly linked to JavaScript. However, the
+architecture of the project actually allows us to take off the interpreter
+completely and replace it with another one.
+
+% Plus de blabla
+
+\subsection{Two compilers}
+
+To interpret OCaml code, we need to parse it. However, our compiler does not
+allow us to use the standard library nor an external one.
 
 \begin{figure*}[ht]
   \centering
@@ -113,45 +177,6 @@ interpreter state at every step of the execution.
   \caption{Architecture of MLExplain}
   \label{fig:archi}
 \end{figure*}
-
-The whole project takes the shape of a web application composed of the
-JavaScript interpreter and a view. The view allows the user to write JavaScript
-code and run it. It also displays the state of the program and the state of the
-interpreter.
-
-The program's execution is not interactive: when the button \texttt{run} is
-pressed, the program is executed all at one and the traces are generated. Only
-then, the user can replay the execution step by step.
-
-\subsection{JSExplain's compiler}
-
-% Référence pour coq ?
-JSExplain was first written in Coq. OCaml code has been extracted from the Coq
-source and is now the primary source code. The interpreter is compiled into
-JavaScript in order to use it within a web page. For this reason, the project
-embeds a homemade OCaml-to-JavaScript compiler.
-
-JSExplain also needs its own OCaml to JavaScript compiler in order to place the
-calls to \verb|log_event| which is the tracing function. This function is also
-used to get the location of the different syntactical objects in the source
-file in order to produce code highlighting in JSExplain's interface.
-
-This compiler offers several compilation modes:
-
-\begin{itemize}
-  \item \texttt{unlog}: generate JavaScript without tracing.
-  \item \texttt{log}: generate JavaScript with tracing.
-  \item \texttt{mlloc}, \texttt{token} and \texttt{ptoken}: generate files with
-    informations about syntastical elements from the input file.
-  \item \texttt{pseudo}: generate JavaScript enhanced with syntactic sugar for
-    pattern matching or monadic operations -- it is supposed to be easier to
-    read.
-\end{itemize}
-
-\subsubsection{fOCaml}
-This compiler does not recognized the whole OCaml language, it can only handle
-a small subset we named \texttt{fOCaml}. Among other restrictions, it cannot
-handle objects and imperative features, exceptions, inner modules, and tuples.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
