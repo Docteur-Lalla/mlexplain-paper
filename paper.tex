@@ -167,7 +167,10 @@ the architecture of the whole application.
 
 The frontend is compiled with \emph{js\_of\_ocaml}
 \cite{DBLP:journals/spe/VouillonB14}, the compiler of the project
-\emph{Ocsigen} \cite{balat:hal-00691710}.
+\emph{Ocsigen} \cite{balat:hal-00691710}. The largest part of the frontend is a
+module that serializes the \emph{Typedtree} -- the typed AST of OCaml -- into a
+JavaScript object compatible with the backend interpreter's own representation
+of the AST.
 
 \begin{figure*}[ht]
   \centering
