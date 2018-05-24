@@ -158,36 +158,7 @@ completely and replace it with another one.
 
 \subsection{Two compilers}
 
-To interpret OCaml code, we need to parse and type it. However, our compiler
-does not allow us to use the standard library nor an external one. Fortunately,
-JSExplain itself did not trace both parsing and typing processes. That is why
-we have been able to separate totally the frontend from the interpreter itself
-and use another compiler to compile it. The figure \ref{fig:archi} describes
-the architecture of the whole application.
-
-The frontend is compiled with \emph{js\_of\_ocaml}
-\cite{DBLP:journals/spe/VouillonB14}, the compiler of the project
-\emph{Ocsigen} \cite{balat:hal-00691710}. The largest part of the frontend is a
-module that serializes the \emph{Typedtree} -- the typed AST of OCaml -- into a
-JavaScript object compatible with the backend interpreter's own representation
-of the AST. We use the \texttt{compiler-libs} library to do the actual parsing
-and typing. We ensure that the typed AST we get is the same as the official
-OCaml compiler AST since we use the exact same frontend.
-
-% Toute une partie sur MLExplain lui-même...
-
-\subsection{Web interface changes}
-
-The data structures manipulated by MLExplain are very different from those
-manipulated by JSExplain since they don't interpret the same language. This led
-us to modify the web interface so that it can recognize the different syntactic
-elements of OCaml and pretty print them correctly as well as OCaml values.
-
-Fortunately the web interface is very simple. It is composed of some auxiliary
-JavaScript files, the main JavaScript file containing the logic of the
-application and the corresponding HTML page. 
-
-\begin{figure*}[ht]
+\begin{figure*}[t]
   \centering
   \begin{tikzpicture}[nodes = {align = center}]
     \node (focaml) [draw, text width=2cm] {Interpreter and libraries (OCaml)};
@@ -226,6 +197,42 @@ application and the corresponding HTML page.
   \caption{Architecture of MLExplain}
   \label{fig:archi}
 \end{figure*}
+
+To interpret OCaml code, we need to parse and type it. However, our compiler
+does not allow us to use the standard library nor an external one. Fortunately,
+JSExplain itself did not trace both parsing and typing processes. That is why
+we have been able to separate totally the frontend from the interpreter itself
+and use another compiler to compile it. The figure \ref{fig:archi} describes
+the architecture of the whole application.
+
+The frontend is compiled with \emph{js\_of\_ocaml}
+\cite{DBLP:journals/spe/VouillonB14}, the compiler of the project
+\emph{Ocsigen} \cite{balat:hal-00691710}. The largest part of the frontend is a
+module that serializes the \emph{Typedtree} -- the typed AST of OCaml -- into a
+JavaScript object compatible with the backend interpreter's own representation
+of the AST. We use the \texttt{compiler-libs} library to do the actual parsing
+and typing. We ensure that the typed AST we get is the same as the official
+OCaml compiler AST since we use the exact same frontend.
+
+\subsection{Solutions to compiler limitations}
+
+As stated before, the backend of our interpreter had to be written in
+\texttt{fOCaml} to be integrated into the web interface. This limitation forced
+to write non-idiomatic OCaml.
+
+% Toute une partie sur MLExplain lui-même...
+
+\subsection{Web interface changes}
+
+The data structures manipulated by MLExplain are very different from those
+manipulated by JSExplain since they don't interpret the same language. This led
+us to modify the web interface so that it can recognize the different syntactic
+elements of OCaml and pretty print them correctly as well as OCaml values.
+
+Fortunately the web interface is very simple. It is composed of some auxiliary
+JavaScript files, the main JavaScript file -- \texttt{navig-driver.js} --
+containing the logic of the application and the corresponding HTML page. The
+only modified file is \texttt{navig-driver.js}.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
