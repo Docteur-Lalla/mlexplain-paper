@@ -180,13 +180,64 @@ of the AST. We use the \texttt{compiler-libs} library to do the actual parsing
 and typing. We ensure that the typed AST we get is the same as the official
 OCaml compiler AST since we use the exact same frontend.
 
+% Difference entre les constructeurs, raison principale de la traduction à la
+% main
+
 \subsection{Solutions to compiler limitations}
 
 As stated before, the backend of our interpreter had to be written in
 \texttt{fOCaml} to be integrated into the web interface. This limitation forced
 to write non-idiomatic OCaml.
 
-% Toute une partie sur MLExplain lui-même...
+Error management could not be done using exceptions. This is why we used monadic
+computation. A monad is a data structure representing an action within a
+context. A monad typically take the form of a type constructor. It provides the
+following functions:
+
+\begin{verbatim}
+Let m, a monad:
+
+val return : 'a -> 'a m
+val bind : 'a m -> ('a -> 'b m) -> 'b m
+\end{verbatim}
+
+The function \texttt{return} let us build a new monadic value \verb|'a m| from
+a value of type \verb|'a|. The function \texttt{bind} (or operator \texttt{>>=}) is
+used to compose monads using a function of type \verb|'a -> 'b m|.
+
+This signature is typical from functions that may fail -- for example
+\verb|'a -> 'b option|. In this case, the \texttt{bind} function would apply
+the supplied function on the monad only if represents a valid state (see figure
+\ref{fig:error} for an implementation on \texttt{option}).
+
+\begin{figure}[b]
+  \begin{verbatim}
+let bind_option opt f = match opt with
+| Some value -> f value
+| None -> None
+  \end{verbatim}
+  
+  \label{fig:error}
+  \caption{Implementation of operator bind on type option}
+\end{figure}
+
+Monads are an elegant way to manage errors, however it forces to nest many
+levels of lambda expressions to chain multiple calls to functions that may
+fail. This causes the source code to be extremely hard to read and therefore to
+maintain. Our compiler supports \texttt{ppx} extensions, hence we implemented a
+very simple syntax extension to transform a special let binding into a bind
+function call:
+
+\begin{verbatim}
+(* This beautiful syntax *)
+let%some a = function_that_could_fail 0 in
+continuation a
+
+(* becomes this *)
+bind_option
+  (function_that_could_fail 0)
+  (fun a -> continuation a)
+\end{verbatim}
 
 \subsection{Web interface changes}
 
