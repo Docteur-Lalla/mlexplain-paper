@@ -12,7 +12,7 @@
 \maketitle
 
 \begin{abstract}
-  MLExplain is a step-by-step visual interpreter for OCaml that enables the
+  MLExplain is a step-by-step interpreter for OCaml that enables the
   user to inspect both their program's state and the interpreter's state
   itself. This interpreter aims to provide the user with a better understanding
   of the semantics of OCaml semantics.
@@ -26,37 +26,60 @@ the language, i.e., interpreters and compilers. However even when a
 specification is available, it can be difficult to understand why the execution
 of a specific program results to a certain output.
 
-The project \emph{JSExplain} \cite{chargueraud:hal-01745792} aims
-to describe a JavaScript program's execution by showing every step of an
-interpreter which behavior is the closest to JavaScript specification. This
-paper shows how we adapted JSExplain to OCaml.
+The goal of the \emph{JSExplain} project \cite{chargueraud:hal-01745792} is to
+describe the execution of a JavaScript program by showing every step of an
+interpreter whose behavior is very closest to the specification of JavaScript.
+In this paper, we show how we adapted JSExplain to OCaml.
 
 Unlike JavaScript, OCaml has no official specification. However, OCaml code
 execution is fairly simple because the amount of language constructions is
 small. We have written an interpreter for OCaml's typed abstract syntax tree
-(AST). This AST is close to source code and need little transformations but
+(AST). This AST is close to the source code and need little transformations but
 supplies us with resolved names -- which is useful for module and signatures
-inclusion and absolutely mandatory for features like named parameters in
-functions.  The semantic we give to OCaml is higher level than the one
-described in \emph{ZINC} \cite{Leroy-ZINC} virtual machine which is at the same
-level as object code.
+inclusion and absolutely mandatory for features like named parameters and
+optional parameters in functions. The semantic we give to OCaml is higher level
+than the one described in \emph{ZINC} \cite{Leroy-ZINC} virtual machine which is
+at the same level as bytecode.
 
-\section{The visual interpreter JSExplain}
+\section{JSExplain}
 
-An interpreter is a program that takes code written in a specific language as
-input and execute it. In order to achieve its goal, the interpreter does
-several analyses ; here are the most common : lexical analysis, parsing and
-typing.
+\subsection{Double Debugger}
+\label{subsec:double-debugger}
 
-We call a \emph{visual interpreter} an interpreter that is able to display the
-program's state, the current location in source and local-variable values at
-each step of the execution as well as the state of the interpreter itself.
-JSExplain is a visual interpreter for JavaScript. The aim of this tool is to
-enable a user to better understand JavaScript's semantics. JSExplain's
-interface highlights the expression of the program currently evaluated as well
-as the instruction of the interpreter that is executed.
+We call a \emph{double debugger} an interpreter that is able to run step by step
+and display the program's state and current location in source, as well as the
+state and location in the source of the interpreter itself. JSExplain is a
+double debugger for JavaScript. The aim of this tool is to help a user to better
+understand JavaScript's semantics, by providing an interpreter that is very
+close to the specification of JavaScript. JSExplain's interface highlights the
+expression of the program currently evaluated as well as the instruction of the
+interpreter that is executed.
 
-\section{JSExplain functioning}
+\subsection{Architecture}
+
+The core of JSExplain is a JavaScript interpreter written in a subset of OCaml.
+This interpreter is compiled to a subset of JavaScript and instrumented to
+generate a trace of its execution when run. This trace can then be navigated
+using a web-based
+tool.\footnote{https://jscert.github.io/jsexplain/branch/master/driver.html}
+
+The subset of OCaml we support for writing the interpreter is purely functional
+with variables, constants, sequence, conditional, let-binding, function
+definition, function application (with support for prefix and infix functions),
+data constructors, records (including record projections, and the
+``record-with'' construct to build a copy of a record with a number of fields
+updated), tuples (i.e., anonymous records), and simple pattern matching (only
+with non-nested patterns, restricted to data constructors, constants, variables,
+and wildcards). For convenience, let-bindings and functions may bind simple
+patterns (as opposed to only variables). We also support \texttt{ppx} extensions
+for monadic programming, to simplify the handling of errors.
+
+The target language of our compiler is a purely functional subset of JavaScript
+where there is never any type conversion, where objects are used as records (no
+use of their \texttt{prototype} field), and where tuples are encoded into
+arrays.
+
+ALAN: stopped here
 
 JSExplain is a visual interpreter. To display its state, the interpreter is
 compiled with a compiler that adds calls to a tracing function. The traced
