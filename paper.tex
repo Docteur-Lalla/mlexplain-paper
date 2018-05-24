@@ -170,7 +170,22 @@ The frontend is compiled with \emph{js\_of\_ocaml}
 \emph{Ocsigen} \cite{balat:hal-00691710}. The largest part of the frontend is a
 module that serializes the \emph{Typedtree} -- the typed AST of OCaml -- into a
 JavaScript object compatible with the backend interpreter's own representation
-of the AST.
+of the AST. We use the \texttt{compiler-libs} library to do the actual parsing
+and typing. We ensure that the typed AST we get is the same as the official
+OCaml compiler AST since we use the exact same frontend.
+
+% Toute une partie sur MLExplain lui-même...
+
+\subsection{Web interface changes}
+
+The data structures manipulated by MLExplain are very different from those
+manipulated by JSExplain since they don't interpret the same language. This led
+us to modify the web interface so that it can recognize the different syntactic
+elements of OCaml and pretty print them correctly as well as OCaml values.
+
+Fortunately the web interface is very simple. It is composed of some auxiliary
+JavaScript files, the main JavaScript file containing the logic of the
+application and the corresponding HTML page. 
 
 \begin{figure*}[ht]
   \centering
