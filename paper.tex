@@ -259,9 +259,31 @@ JavaScript files, the main JavaScript file -- \texttt{navig-driver.js} --
 containing the logic of the application and the corresponding HTML page. The
 only modified file is \texttt{navig-driver.js}.
 
-\section{Amount of modifications}
+\section{Statistics}
 
 
+
+\begin{figure}[hb]
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+    & Comments & Code & Bind calls \\
+    \hline
+    Interpreter & 164 & 394 & 62 \\
+    Primitives & 31 & 35 & 0 \\
+    Execution context & 22 & 13 & 0 \\
+    Frontend & 41 & 542 & 0 \\
+    Syntax definition & 17 & 65 & 0 \\
+    Auxiliary files & 72 & 232 & 2 \\
+    \hline
+    Total (no .mli) & 392 & 1621 & 70 \\
+    Total (with .mli) & 401 & 1636 & 70 \\
+    \hline
+  \end{tabular}
+
+  \centering
+  \caption{Statistics about the project's code}
+  \label{fig:statistics}
+\end{figure}
 
 \bibliographystyle{plain}
 \bibliography{biblio}
