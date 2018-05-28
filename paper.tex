@@ -118,9 +118,9 @@ satisfying a predicate, or vice-versa.
 \section{MLExplain}
 
 At first glance, JSExplain seems tightly linked to JavaScript. However, the
-architecture of the project is quite modular, and can be used for a different
-programming language, by providing an interpreter written in the subset of OCaml
-that we support as well as a way to display OCaml values.
+architecture of the project is quite modular and can be used for a different
+programming language, by providing both an interpreter written in the subset of
+OCaml that we support and a way to display OCaml values.
 
 \subsection{Two compilers}
 
@@ -165,11 +165,11 @@ that we support as well as a way to display OCaml values.
 \end{figure*}
 
 To interpret OCaml code, we first need to parse and type it. However, our
-compiler does not allow us to use the standard library nor an external one. As
-we do not need to trace the parsing nor the typing, we have been able to
-separate totally the frontend from the interpreter itself and use another
-compiler to compile it. Figure \ref{fig:archi} describes the architecture of
-the whole application.
+compiler does not allow us to use the standard library nor an external one, as
+they are not written in the subset of OCaml that we support. As we do not need
+to trace the parsing nor the typing, we have been able to separate totally the
+frontend from the interpreter itself and use another compiler to compile it.
+Figure \ref{fig:archi} describes the architecture of the whole application.
 
 The frontend is compiled with \emph{js\_of\_ocaml}
 \cite{DBLP:journals/spe/VouillonB14}, the compiler of the project \emph{Ocsigen}
@@ -210,8 +210,8 @@ bind_option
 Such code can become difficult to read, especially when one is chaining several
 functions.
 
-The use of \texttt{ppx} lets us write the much simpler code, which is
-transformed to the previous version during parsing.
+The use of \texttt{ppx} lets us write much simpler code, which is transformed to
+the previous version during parsing.
 \begin{verbatim}
 let%some a = function_that_could_fail 0 in
 continuation a
@@ -264,16 +264,17 @@ of OCaml, with the exception of objects and record patterns.
 We have shown how JSExplain can be easily adapted to other programming language,
 in this case OCaml. Most of the complexity of OCaml being its typing, writing
 the interpreter was quite straightforward. The current implementation of our
-interpreter is very simple and contains a lot of documentation. The
-architecture of the code is also straightforward, which allows anyone to easily
-extend the interpreter. The simple design of our interpreter makes it a perfect
-candidate to base a specification of OCaml on. MLExplain also provides a
-confortable environment to experiment with the semantics of OCaml. It is thus a
-perfect playground for future evolution of the language.
+interpreter is very simple and contains a lot of documentation. The architecture
+of the code is as unsurprising as possible, enabling easy extensions. As the
+design of our interpreter is very simple, it could be considered as a first step
+towards a specification of OCaml. MLExplain also provides a comfortable
+environment to experiment with the semantics of OCaml. It is thus a good
+playground for future evolution of the language.
 
-As future work, we plan to extend the subset of OCaml supported by our
-compiler, to be able to directly use the standard library when writing
-interpreters.
+As future work, we plan to extend the subset of OCaml supported by our compiler,
+to be able to directly use the standard library when writing interpreters, and
+to implement the few OCaml construct missing from our interpreter. We also want
+to improve the web interface and to allow the user to load code from multiple files.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
