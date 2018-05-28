@@ -263,9 +263,17 @@ of OCaml, with the exception of objects.
 \section{Conclusion}
 We have shown how JSExplain can be easily adapted to other programming language,
 in this case OCaml. Most of the complexity of OCaml being its typing, writing
-the interpreter was quite straightforward. As future work, we plan to extend the
-subset of OCaml supported by our compiler, to be able to directly use the
-standard library when writing interpreters.
+the interpreter was quite straightforward. The current implementation of our
+interpreter is very simple and contains a lot of documentation. The
+architecture of the code is also straightforward, which allows anyone to easily
+extend the interpreter. The simple design of our interpreter makes it a perfect
+candidate to base a specification of OCaml on. MLExplain also provides a
+confortable environment to experiment with the semantics of OCaml. It is thus a
+perfect playground for future evolution of the language.
+
+As future work, we plan to extend the subset of OCaml supported by our
+compiler, to be able to directly use the standard library when writing
+interpreters.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
