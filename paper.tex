@@ -115,6 +115,11 @@ that reference both the interpreter and interpreted programs. One may thus reach
 a point where some interpreter line is being evaluated with some source value
 satisfying a predicate, or vice-versa.
 
+Note that JSExplain, and by extension MLExplain, runs a program to its
+completion to generate the trace, and it is that trace that is explored using
+the web interface. It thus does not currently offer the ability to alter the
+state of the program as it is being explored.
+
 \section{MLExplain}
 
 At first glance, JSExplain seems tightly linked to JavaScript. However, the
@@ -280,3 +285,8 @@ to improve the web interface and to allow the user to load code from multiple fi
 \bibliography{biblio}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

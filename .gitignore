@@ -5,3 +5,5 @@ paper.log
 paper.blg
 auto
 paper.synctex.gz
+/.auctex-auto/paper.el
+/paper.out
