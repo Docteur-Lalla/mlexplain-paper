@@ -236,7 +236,7 @@ containing the logic of the application and the corresponding HTML page. The
 only modified file is \texttt{navig-driver.js}. The resulting tool can be tested
 online\footnote{\url{https://docteur-lalla.github.io/mlexplain/branch/master/driver.html}}
 and is shown in Figure~\ref{fig:mlexplain}. The top-left panel shows the
-interpreted, here a simple eval function using GADTs, with the state of the
+interpreted program, here a simple eval function using GADTs, with the state of the
 program depicted on the right. The bottom panel shows the
 interpreter, with its state below. One can see that at this point the
 \texttt{eval} identifier is being evaluated, with the values of \texttt{r},
@@ -244,7 +244,7 @@ interpreter, with its state below. One can see that at this point the
 
 \begin{figure*}
   \centering
-  \includegraphics[width=14cm]{mlexplain.png}
+  \includegraphics[width=17cm]{mlexplain.png}
   \caption{MLExplain}
   \label{fig:mlexplain}
 \end{figure*}
@@ -278,7 +278,8 @@ We give some statistics about the project in Figure~\ref{fig:statistics}. As can
 be seen, the largest part of the code is the frontend, in particular the
 conversion from OCaml's AST to our format. The interpreter is quite short,
 because the execution of OCaml is actually very simple. Note that we support all
-of OCaml, with the exception of objects and record patterns.
+of OCaml, with the exception of objects and record patterns, which we have not
+had the time to implement.
 
 \begin{figure}
   \begin{tabular}{| c | c | c | c |}
@@ -315,11 +316,11 @@ playground for future evolution of the language.
 
 As future work, we plan to extend the subset of OCaml supported by our compiler,
 to be able to directly use the standard library when writing interpreters. We
-also plan to implement the few OCaml construct missing from our interpreter for
-lack of time, such as record patterns and objects. It would be most useful to
-document the evaluation order of every OCaml construction to make sure our
-interpreters follows it. Finally, be want to improve the web interface and to
-allow the user to load code from multiple files.
+also plan to implement the few OCaml constructs missing from our interpreter. In
+addition, it would be most useful to document the evaluation order of every
+OCaml construction to make sure our interpreters follows it. Finally, we want to
+improve the web interface and to allow the user to load code from multiple
+files.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
