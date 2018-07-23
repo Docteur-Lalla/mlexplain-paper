@@ -19,7 +19,7 @@ Comments for author
 -------------------
 Screenshots of the web interface for MLExplain on example programs would have been helpful in this proposal, or in general, examples of any kind!
 
-Alan: TODO
+Alan: Done
 
 A poster was given at last year's workshop on the topic of interpreting OCaml for debugging. What are the differences here? What are the similarities?
 
@@ -52,7 +52,7 @@ I really like this idea and believe it would make a great presentation at the OC
 
 It's a shame that there aren't any screenshots in the submitted abstract, but I did try out the system using the link in footnote 2. Just a few comments
 
-Alan: TODO
+Alan: Done
 
 - The abstract talks about running the instrumented interpreter to generate a trace. Does this mean that the program has to run to completion before its execution can be probed? Or is the (Javascript) output of the compiled interpreter run in a debugger? This wasn't clear to me. If the former, would it in future be possible to do "live" debugging.
 
@@ -60,7 +60,7 @@ Alan: Clarified
 
 - I wonder if the authors could comment on alternative approaches e.g. just using a conventional debugger on the interpreter but with good *visualizers* for the program state that include the highlighted source. Wouldn't this achieve the same effect?
 
-Alan: TODO
+Alan: Done
 
 - The identification of the state of the interpreter seems a bit fragile e.g. looking for parameters with particular names (_term_). Is this the case? Do things break easily if the interpreter is changed, especially if it is refactored in non-trivial way?
 
@@ -68,6 +68,7 @@ Alan: TODO
 
 - Was there a fundamental reason to omit support for objects and record patterns?
 
+Alan: TODO
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -101,7 +102,7 @@ There are some questions:
 It will be possible to implement a double debugger using only OCaml.
 The reason for the necessity of JavaScript cannot be found in this paper.
 
-Alan: TODO
+Alan: Done
 
 - What is the difference between steppers and step-by-step interpreters?
 Let us consider the following small program :
@@ -112,7 +113,7 @@ However, I can not find the step-by-step result of a + b.
 (The highlighted parts are moved, so internally it might be evaluated.
  steppers will show these evaluations.)
  
-Alan: TODO
+Alan: This will need to be shown in the demo
 
 - Is it possible to prove that your implementation uses the same evaluation order with OCaml?
 Although OCaml does not have the official specification, the order of evaluation should be the same with OCaml.

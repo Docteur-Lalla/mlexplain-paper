@@ -122,15 +122,6 @@ completion to generate the trace, and it is that trace that is explored using
 the web interface. It thus does not currently offer the ability to alter the
 state of the program as it is being explored.
 
-\section{MLExplain}
-
-At first glance, JSExplain seems tightly linked to JavaScript. However, the
-architecture of the project is quite modular and can be used for a different
-programming language, by providing both an interpreter written in the subset of
-OCaml that we support and a way to display OCaml values.
-
-\subsection{Two compilers}
-
 \begin{figure*}
   \centering
   \begin{tikzpicture}[nodes = {align = center}]
@@ -167,9 +158,17 @@ OCaml that we support and a way to display OCaml values.
     \path[->,thick,dotted,>=stealth] (fjs) edge (trace);
   \end{tikzpicture}
   
-  \caption{Architecture of MLExplain}
-  \label{fig:archi}
+  \caption{Architecture of MLExplain}\label{fig:archi}
 \end{figure*}
+
+\section{MLExplain}
+
+At first glance, JSExplain seems tightly linked to JavaScript. However, the
+architecture of the project is quite modular and can be used for a different
+programming language, by providing both an interpreter written in the subset of
+OCaml that we support and a way to display OCaml values.
+
+\subsection{Two compilers}
 
 To interpret OCaml code, we first need to parse and type it. However, our
 compiler does not allow us to use the standard library nor an external one, as
@@ -235,7 +234,13 @@ Fortunately the web interface is very simple. It is composed of some auxiliary
 JavaScript files, the main JavaScript file -- \texttt{navig-driver.js} --
 containing the logic of the application and the corresponding HTML page. The
 only modified file is \texttt{navig-driver.js}. The resulting tool can be tested
-online.\footnote{\url{https://docteur-lalla.github.io/mlexplain/branch/master/driver.html}}
+online\footnote{\url{https://docteur-lalla.github.io/mlexplain/branch/master/driver.html}}
+and is shown in Figure~\ref{fig:mlexplain}. The top-left panel shows the
+interpreted, here a simple eval function using GADTs, with the state of the
+program depicted on the right. The bottom panel shows the
+interpreter, with its state below. One can see that at this point the
+\texttt{eval} identifier is being evaluated, with the values of \texttt{r},
+\texttt{l}, and \texttt{b} shown on the right.
 
 \begin{figure*}
   \centering
@@ -243,6 +248,26 @@ online.\footnote{\url{https://docteur-lalla.github.io/mlexplain/branch/master/dr
   \caption{MLExplain}
   \label{fig:mlexplain}
 \end{figure*}
+
+\subsection{Design Choices}\label{subsec:design}
+
+We now motivate our design choices. First, we use JavaScript because MLExplain
+is a witness that JSExplain can easily be adapted to other languages, by
+providing three components: an interpreter written in the subset of OCaml that
+our compiler supports, a parser of the language, and a library to display OCaml
+values. It would be possible to sever all links to the infrastructure provided
+by JSExplain, but this would require significant work.
+
+It is possible to use an existing debugger to explore how an interpreter works.
+This is how we initially debugged our JavaScript interpreter and this was the
+motivation to start working on JSExplain. Indeed, our interpreter is written as
+a purely functional set of recursive functions that extensively use monadic
+operations implemented in continuation passing style. It is difficult to
+correctly navigate such functions, as stepping over a continuation means
+reaching the end of the program. One thus has to be aware of whether a function
+call is a continuation or a usual function. In addition, we did not find an easy
+way to display the state of the interpreted program, even when relying on the
+use of fixed names for the term, the state, and the context.
 
 \section{Statistics}
 
