@@ -64,11 +64,11 @@ Alan: Done
 
 - The identification of the state of the interpreter seems a bit fragile e.g. looking for parameters with particular names (_term_). Is this the case? Do things break easily if the interpreter is changed, especially if it is refactored in non-trivial way?
 
-Alan: TODO
+Alan: Alan
 
 - Was there a fundamental reason to omit support for objects and record patterns?
 
-Alan: TODO
+Alan: DONE
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -118,4 +118,4 @@ Alan: This will need to be shown in the demo
 - Is it possible to prove that your implementation uses the same evaluation order with OCaml?
 Although OCaml does not have the official specification, the order of evaluation should be the same with OCaml.
 
-Alan: TODO
+Alan: DONE

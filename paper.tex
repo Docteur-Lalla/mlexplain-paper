@@ -1,7 +1,7 @@
 %\documentclass{article}
 \documentclass[twocolumn,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[top=1cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry} 
+\usepackage[top=1.5cm, bottom=2cm, left=2cm, right=2cm]{geometry} 
 \usepackage{minted}
 \usepackage{tikz}
 \usetikzlibrary{positioning,fit,shapes,arrows.meta}
@@ -254,20 +254,23 @@ interpreter, with its state below. One can see that at this point the
 We now motivate our design choices. First, we use JavaScript because MLExplain
 is a witness that JSExplain can easily be adapted to other languages, by
 providing three components: an interpreter written in the subset of OCaml that
-our compiler supports, a parser of the language, and a library to display OCaml
-values. It would be possible to sever all links to the infrastructure provided
-by JSExplain, but this would require significant work.
+our compiler supports, a parser of the language, and a library to display
+runtime values. It would be possible to sever all links to the infrastructure
+provided by JSExplain, but this would require significant work.
 
-It is possible to use an existing debugger to explore how an interpreter works.
-This is how we initially debugged our JavaScript interpreter and this was the
-motivation to start working on JSExplain. Indeed, our interpreter is written as
-a purely functional set of recursive functions that extensively use monadic
+Second, it is possible to use an existing debugger to explore how an interpreter
+works. This is how we initially debugged our JavaScript interpreter and this was
+the motivation to start working on JSExplain. Indeed, our interpreter is written
+as a purely functional set of recursive functions that extensively use monadic
 operations implemented in continuation passing style. It is difficult to
 correctly navigate such functions, as stepping over a continuation means
 reaching the end of the program. One thus has to be aware of whether a function
-call is a continuation or a usual function. In addition, we did not find an easy
-way to display the state of the interpreted program, even when relying on the
-use of fixed names for the term, the state, and the context.
+call involves a continuation or a usual function. In addition, we did not find
+an easy way to display the state of the interpreted program, even when relying
+on the use of fixed names for the term, the state, and the context. The use of
+fixed names may seem fragile, but as we only rely on a few of them and as the
+signature of the evaluation functions are uniform, we have not observed any
+issue with this approach.
 
 \section{Statistics}
 
@@ -311,9 +314,12 @@ environment to experiment with the semantics of OCaml. It is thus a good
 playground for future evolution of the language.
 
 As future work, we plan to extend the subset of OCaml supported by our compiler,
-to be able to directly use the standard library when writing interpreters, and
-to implement the few OCaml construct missing from our interpreter. We also want
-to improve the web interface and to allow the user to load code from multiple files.
+to be able to directly use the standard library when writing interpreters. We
+also plan to implement the few OCaml construct missing from our interpreter for
+lack of time, such as record patterns and objects. It would be most useful to
+document the evaluation order of every OCaml construction to make sure our
+interpreters follows it. Finally, be want to improve the web interface and to
+allow the user to load code from multiple files.
 
 \bibliographystyle{plain}
 \bibliography{biblio}
