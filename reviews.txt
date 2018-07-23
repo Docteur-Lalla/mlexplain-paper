@@ -59,7 +59,13 @@ Alan: TODO
 Alan: Clarified
 
 - I wonder if the authors could comment on alternative approaches e.g. just using a conventional debugger on the interpreter but with good *visualizers* for the program state that include the highlighted source. Wouldn't this achieve the same effect?
+
+Alan: TODO
+
 - The identification of the state of the interpreter seems a bit fragile e.g. looking for parameters with particular names (_term_). Is this the case? Do things break easily if the interpreter is changed, especially if it is refactored in non-trivial way?
+
+Alan: TODO
+
 - Was there a fundamental reason to omit support for objects and record patterns?
 
 
@@ -95,6 +101,8 @@ There are some questions:
 It will be possible to implement a double debugger using only OCaml.
 The reason for the necessity of JavaScript cannot be found in this paper.
 
+Alan: TODO
+
 - What is the difference between steppers and step-by-step interpreters?
 Let us consider the following small program :
 let a = 2 + 3 in let b = 4 + 3 in a + b
@@ -103,6 +111,10 @@ the environment for a + b correctly, {a = 5; b = 7}.
 However, I can not find the step-by-step result of a + b.
 (The highlighted parts are moved, so internally it might be evaluated.
  steppers will show these evaluations.)
+ 
+Alan: TODO
 
 - Is it possible to prove that your implementation uses the same evaluation order with OCaml?
 Although OCaml does not have the official specification, the order of evaluation should be the same with OCaml.
+
+Alan: TODO

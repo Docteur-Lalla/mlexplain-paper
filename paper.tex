@@ -1,13 +1,15 @@
 %\documentclass{article}
-\documentclass[twocolumn]{article}
+\documentclass[twocolumn,a4paper]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[top=1cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry} 
+\usepackage{minted}
 \usepackage{tikz}
 \usetikzlibrary{positioning,fit,shapes,arrows.meta}
 \usepackage{hyperref}
 
-\author{ K\'evin Le Bon \and Alan Schmitt }
-
+\author{ K\'evin Le Bon (Inria) \and Alan Schmitt (Inria) }
 \title{MLExplain}
+\date{}
 
 \begin{document}
 \maketitle
@@ -129,7 +131,7 @@ OCaml that we support and a way to display OCaml values.
 
 \subsection{Two compilers}
 
-\begin{figure*}[t]
+\begin{figure*}
   \centering
   \begin{tikzpicture}[nodes = {align = center}]
     \node (focaml) [draw, text width=2cm] {Interpreter and libraries (OCaml)};
@@ -200,27 +202,27 @@ rely on \texttt{ppx} extensions to simplify the syntax.
 As an example, consider the \texttt{option} monad, whose main operator is
 defined as follows.
 
-\begin{verbatim}
+\begin{minted}{ocaml}
 let bind_option opt f = match opt with
 | Some value -> f value
 | None -> None
-\end{verbatim}
+\end{minted}
 
 To use this operator, one would need to write the following.
-\begin{verbatim}
+\begin{minted}{ocaml}
 bind_option
   (function_that_could_fail 0)
   (fun a -> continuation a)
-\end{verbatim}
+\end{minted}
 Such code can become difficult to read, especially when one is chaining several
 functions.
 
 The use of \texttt{ppx} lets us write much simpler code, which is transformed to
 the previous version during parsing.
-\begin{verbatim}
+\begin{minted}{ocaml}
 let%some a = function_that_could_fail 0 in
 continuation a
-\end{verbatim}
+\end{minted}
 
 \subsection{Web interface changes}
 
@@ -235,6 +237,13 @@ containing the logic of the application and the corresponding HTML page. The
 only modified file is \texttt{navig-driver.js}. The resulting tool can be tested
 online.\footnote{\url{https://docteur-lalla.github.io/mlexplain/branch/master/driver.html}}
 
+\begin{figure*}
+  \centering
+  \includegraphics[width=14cm]{mlexplain.png}
+  \caption{MLExplain}
+  \label{fig:mlexplain}
+\end{figure*}
+
 \section{Statistics}
 
 We give some statistics about the project in Figure~\ref{fig:statistics}. As can
@@ -243,7 +252,7 @@ conversion from OCaml's AST to our format. The interpreter is quite short,
 because the execution of OCaml is actually very simple. Note that we support all
 of OCaml, with the exception of objects and record patterns.
 
-\begin{figure}[hb]
+\begin{figure}
   \begin{tabular}{| c | c | c | c |}
     \hline
     & Comments & Code & Bind calls \\
@@ -289,4 +298,5 @@ to improve the web interface and to allow the user to load code from multiple fi
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
+%%% TeX-engine: latex_sh
 %%% End:
