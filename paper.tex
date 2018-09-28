@@ -1,26 +1,22 @@
-%\documentclass{article}
-\documentclass[twocolumn,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[top=1.5cm, bottom=2cm, left=2cm, right=2cm]{geometry} 
-\usepackage{minted}
-\usepackage{tikz}
-\usetikzlibrary{positioning,fit,shapes,arrows.meta}
-\usepackage{hyperref}
+% \documentclass{article}
+\documentclass[twocolumn,a4paper]{article} \usepackage[utf8]{inputenc}
+\usepackage[top=1.5cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{minted} \usepackage{tikz}
+\usetikzlibrary{positioning,fit,shapes,arrows.meta} \usepackage{hyperref}
 
-\author{ K\'evin Le Bon (Inria) \and Alan Schmitt (Inria) }
-\title{MLExplain}
+\author{ K\'evin Le Bon (Inria) \and Alan Schmitt (Inria) } \title{MLExplain}
 \date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-  MLExplain is a step-by-step interpreter for OCaml that enables the
-  user to inspect both their program's state and the interpreter's state
-  itself. This interpreter is derived from JExplain, a step-by-step interpreter
-  for JavaScript. Its original goal is to prove that JSExplain can easily be
-  reused with another language. MLExplain also aims to provide the user with a
-  better understanding of the semantics of OCaml.
+  MLExplain is a step-by-step interpreter for OCaml that enables the user to
+  inspect both their program's state and the interpreter's state itself. This
+  interpreter is derived from JExplain, a step-by-step interpreter for
+  JavaScript. The original goal of this work is to show that JSExplain can
+  easily be reused with another language. MLExplain also aims to provide the
+  user with a better understanding of the semantics of OCaml.
 \end{abstract}
 
 \section{Introduction}
